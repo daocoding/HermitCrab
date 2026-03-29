@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.hermitcrab.orchestrator</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/node</string>
+        <string>/Users/tony/Library/CloudStorage/OneDrive-ApexLearn/JARVIS/hermitcrab/orchestrator/orchestrator.js</string>
+    </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/tony/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <key>HOME</key>
+        <string>/Users/tony</string>
+        <key>HERMITCRAB_WORKSPACE</key>
+        <string>/Users/tony/Library/CloudStorage/OneDrive-ApexLearn/JARVIS</string>
+    </dict>
+    <key>WorkingDirectory</key>
+    <string>/Users/tony/Library/CloudStorage/OneDrive-ApexLearn/JARVIS</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+    <key>StandardOutPath</key>
+    <string>/Users/tony/Library/Logs/HermitCrab/orchestrator.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/tony/Library/Logs/HermitCrab/orchestrator.err</string>
+</dict>
+</plist>

@@ -1,0 +1,77 @@
+[
+  {
+    "id": "antigravity_watchdog",
+    "name": "Antigravity Health Watchdog",
+    "level": 1,
+    "schedule": "every 1m",
+    "enabled": true,
+    "catch_up": false,
+    "command": "AG_CLI=\"${HOME}/.local/bin/antigravity-cli\"; AG_STATUS=$($AG_CLI server status 2>&1); if [ $? -ne 0 ]; then echo \"Antigravity DOWN: $AG_STATUS\"; PGREP_COUNT=$(pgrep -f 'Antigravity' | wc -l | xargs); echo \"Processes: $PGREP_COUNT\"; if [ \"$PGREP_COUNT\" -lt 2 ]; then echo 'Attempting restart...'; open -a Antigravity; sleep 10; $AG_CLI server status 2>&1 && echo 'RECOVERED' || (echo 'STILL_DOWN'; curl -s -d '🚨 Antigravity failed to recover after restart on '$(scutil --get ComputerName)'' ntfy.sh/tonysM5; exit 1); else echo 'Antigravity process exists but CLI unresponsive — may need manual restart'; curl -s -d '⚠️ Antigravity unresponsive on '$(scutil --get ComputerName)' (process exists but CLI timeout)' ntfy.sh/tonysM5; exit 1; fi; else echo \"Antigravity OK: $AG_STATUS\"; fi",
+    "_comment": "Checks Antigravity IDE health every 60s. Auto-restarts if down. Alerts via ntfy if restart fails."
+  },
+  {
+    "id": "health_check",
+    "name": "System Health Check",
+    "level": 1,
+    "schedule": "every 5m",
+    "enabled": true,
+    "catch_up": false,
+    "command": "echo '{\"disk\":\"'$(df -h / | tail -1 | awk '{print $5}')'\",\"load\":\"'$(uptime | awk -F'load averages:' '{print $2}' | xargs)'\",\"memory_pressure\":\"'$(memory_pressure 2>/dev/null | tail -1 || echo 'n/a')'\",\"bridges\":{\"telegram\":\"'$(curl -s -o /dev/null -w '%{http_code}' http://localhost:18791/status 2>/dev/null || echo 'down')'\",\"teams\":\"'$(curl -s -o /dev/null -w '%{http_code}' --connect-timeout 3 http://localhost:3979/ 2>/dev/null || echo 'down')'\"}}'",
+    "l3_heal": "jarvis",
+    "_comment": "Basic system vitals — runs frequently, heals via JARVIS if something's wrong"
+  },
+  {
+    "id": "morning_brief",
+    "name": "Morning Brief",
+    "level": 2,
+    "schedule": "daily 08:00",
+    "enabled": false,
+    "catch_up": true,
+    "agent": "jarvis",
+    "prompt": "Good morning. Please prepare Tony's morning brief:\n1. Check today's calendar events\n2. Review any overnight task results in hermitcrab/orchestrator/state.json\n3. Surface any items from context/working-memory.md that need attention today\n4. Send the brief to Tony via Telegram (/notify endpoint).",
+    "model": "claude-opus-4.6",
+    "l3_fallback_agents": ["mini"],
+    "_comment": "Daily morning brief — disabled until Tony wants to enable it"
+  },
+  {
+    "id": "bridge_watchdog",
+    "name": "Bridge Watchdog",
+    "level": 1,
+    "schedule": "every 2m",
+    "enabled": true,
+    "catch_up": false,
+    "command": "telegram=$(curl -s -o /dev/null -w '%{http_code}' --connect-timeout 3 http://localhost:18791/status 2>/dev/null); teams=$(curl -s -o /dev/null -w '%{http_code}' --connect-timeout 3 http://localhost:3979/ 2>/dev/null); if [ \"$telegram\" = \"000\" ] || [ \"$teams\" = \"000\" ]; then echo \"ALERT: telegram=$telegram teams=$teams\"; exit 1; else echo \"OK: telegram=$telegram teams=$teams\"; fi",
+    "l3_heal": "jarvis",
+    "_comment": "Checks both bridges every 2 min. If either is down, L3 escalates to JARVIS to diagnose."
+  },
+  {
+    "id": "qmd_embed",
+    "name": "QMD Embedding",
+    "level": 2,
+    "schedule": "once",
+    "enabled": false,
+    "catch_up": false,
+    "agent": "jarvis",
+    "prompt": "Run the QMD embedding workflow. Follow /qmd-embed workflow steps. Monitor progress and send ntfy notification when done.",
+    "model": "claude-opus-4.6",
+    "preflight_checks": [
+      {
+        "name": "QMD binary",
+        "command": "which qmd",
+        "expect": "qmd"
+      },
+      {
+        "name": "Disk space (>10GB free)",
+        "command": "df -g / | tail -1 | awk '{print $4}'",
+        "expect": ""
+      },
+      {
+        "name": "No heavy apps running",
+        "command": "pgrep -x 'Xcode|Safari|Chrome|Firefox' || echo 'clear'",
+        "expect": "clear"
+      }
+    ],
+    "l3_fallback_agents": [],
+    "_comment": "QMD embedding — nocturnal task. Enable before bed, disable after. Has pre-flight checks."
+  }
+]

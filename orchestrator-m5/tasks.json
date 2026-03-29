@@ -1,0 +1,56 @@
+[
+  {
+    "id": "qmd_embed_smart",
+    "name": "QMD Smart Embedding",
+    "level": 2,
+    "schedule": "every 30m",
+    "enabled": true,
+    "catch_up": false,
+    "agent": "jarvis",
+    "sessionId": "8f7c0034-f3aa-4200-ac95-e18b563076c7",
+    "prompt": "[🎯 Orchestrator Heartbeat — QMD Embedding Monitor]\n\nYou are JARVIS running autonomously via the M5 orchestrator. Tony may or may not be around.\n\nDo a FULL intelligent check of the QMD embedding situation:\n\n1. Check if qmd embed is running: pgrep -f 'qmd embed'\n2. Check QMD status: qmd status 2>&1 | head -15\n3. Check system memory: vm_stat | head -5 and check RSS of any qmd process\n4. Read the latest embed log: tail -30 /tmp/qmd-test.log 2>/dev/null | strings | tail -15\n5. Check for errors: grep -c 'DisposedError\\|Error\\|error' /tmp/qmd-test.log 2>/dev/null\n6. Check the monitor log: tail -10 /tmp/qmd-overnight-monitor.log 2>/dev/null\n\nThen ANALYZE and DECIDE:\n\n- If embedding COMPLETED (0 pending): Send Tony a proper briefing via ntfy with total vectors, duration, and any errors. Update context/working-memory.md with the result. Log to memory journal.\n- If embedding is RUNNING and healthy (vectors increasing, memory stable): Report progress, ETA. No action needed.\n- If embedding CRASHED or STALLED (process dead with pending docs remaining): Analyze WHY from the logs. If it's fixable (memory freed up), restart it. If it's a code issue, brief Tony.\n- If embedding has ERRORS (DisposedError, etc.): Analyze the error pattern and count. Decide if it's worth restarting.\n\nDon't just send a raw notification — give Tony an intelligent briefing he can act on. You have full context from today's kernel panic debugging and the fixes applied.\n\nIMPORTANT: The safe embed script at scripts/qmd-embed-safe.sh exists but for now we're running qmd embed directly since we patched store.js and llm.js to fix the memory issues (1 context only, 12h session timeout, batch doc loading). If you need to restart, just run: nohup /opt/homebrew/bin/qmd embed > /tmp/qmd-test.log 2>&1 &",
+    "model": "gemini-3-flash",
+    "preflight_checks": [
+      {
+        "name": "QMD binary",
+        "command": "which qmd || echo 'MISSING'",
+        "expect": "qmd"
+      }
+    ],
+    "l3_heal": null,
+    "_comment": "Wakes JARVIS to intelligently monitor QMD embedding — not just dumb notifications. Patched store.js + llm.js on 2026-03-20 to fix memory (1 context, 12h timeout, batch loading)."
+  },
+  {
+    "id": "m5_health",
+    "name": "M5 Health Check",
+    "level": 1,
+    "schedule": "every 5m",
+    "enabled": true,
+    "catch_up": false,
+    "command": "disk=$(df -h / | tail -1 | awk '{print $5}'); mem_free=$(vm_stat | grep 'Pages free' | awk '{print $3}' | tr -d '.'); caffeinate_alive=$(pgrep caffeinate > /dev/null && echo 'yes' || echo 'NO'); qmd_running=$(pgrep -f 'qmd embed' > /dev/null && echo 'yes' || echo 'no'); echo \"{\\\"disk\\\":\\\"$disk\\\",\\\"mem_free_pages\\\":$mem_free,\\\"caffeinate\\\":\\\"$caffeinate_alive\\\",\\\"qmd_running\\\":\\\"$qmd_running\\\"}\"",
+    "_comment": "Basic M5 system health — checks disk, memory, caffeinate alive, QMD status"
+  },
+  {
+    "id": "caffeinate_guard",
+    "name": "Caffeinate Watchdog",
+    "level": 1,
+    "schedule": "every 10m",
+    "enabled": true,
+    "catch_up": false,
+    "command": "if ! pgrep caffeinate > /dev/null; then caffeinate -dis & echo \"RESTARTED caffeinate (PID $!)\"; else echo \"OK (PID $(pgrep caffeinate))\"; fi",
+    "_comment": "Ensures caffeinate stays alive — if it dies, Mac might sleep and kill everything"
+  },
+  {
+    "id": "overnight_journal",
+    "name": "Overnight Work Journal",
+    "level": 2,
+    "schedule": "daily 06:00",
+    "enabled": true,
+    "catch_up": false,
+    "agent": "jarvis",
+    "sessionId": "8f7c0034-f3aa-4200-ac95-e18b563076c7",
+    "prompt": "[🎯 Orchestrator — Morning Briefing]\n\nTony will wake up soon. You are JARVIS running autonomously.\n\n1. Check QMD status: qmd status 2>&1 | head -15\n2. Check overnight logs: tail -20 /tmp/qmd-test.log 2>/dev/null | strings\n3. Check orchestrator state: cat hermitcrab/orchestrator-m5/state.json\n4. Check system health: uptime; df -h / | tail -1; vm_stat | head -5\n5. Check bridge status: ssh tony@100.95.132.73 'pgrep -f bridge.js > /dev/null && echo Bridge:UP || echo Bridge:DOWN' 2>/dev/null || echo 'Bridge: SSH unreachable'\n\nCompile an intelligent morning briefing:\n- QMD embedding result (completed? how many vectors? any errors?)\n- System health overnight (any memory issues? crashes?)\n- Bridge status\n- Anything that needs Tony's attention\n\nSend the briefing via ntfy: curl -s -d 'YOUR_BRIEFING' ntfy.sh/tonysM5\nAlso update context/working-memory.md and append to today's memory journal.\n\nMake it concise but complete — Tony reads this on his phone when he wakes up.",
+    "model": "gemini-3-flash",
+    "_comment": "Morning summary — intelligent briefing, not just raw data. Resumes current IDE session."
+  }
+]

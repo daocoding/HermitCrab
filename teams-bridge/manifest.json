@@ -1,0 +1,50 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.0",
+  "id": "8064d4bb-dd2b-4069-81e4-002cd71d04da",
+  "developer": {
+    "name": "ApexLearn",
+    "websiteUrl": "https://apexlearn.com",
+    "privacyUrl": "https://apexlearn.com/privacy",
+    "termsOfUseUrl": "https://apexlearn.com/terms"
+  },
+  "name": {
+    "short": "JARVIS",
+    "full": "JARVIS — Just A Rather Very Intelligent System"
+  },
+  "description": {
+    "short": "AI assistant powered by HermitCrab",
+    "full": "JARVIS is an AI-powered personal assistant connected to the HermitCrab bridge system. It can help with coding, research, analysis, and more. DM @JARVIS or mention it in any channel."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#4A90D9",
+  "bots": [
+    {
+      "botId": "8064d4bb-dd2b-4069-81e4-002cd71d04da",
+      "scopes": ["personal", "team", "groupChat"],
+      "commandLists": [
+        {
+          "scopes": ["personal"],
+          "commands": [
+            {
+              "title": "help",
+              "description": "Show what JARVIS can do"
+            },
+            {
+              "title": "status",
+              "description": "Check bridge and system status"
+            }
+          ]
+        }
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": []
+}

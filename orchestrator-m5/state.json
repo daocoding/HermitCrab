@@ -1,0 +1,41 @@
+{
+  "taskStates": {
+    "qmd_embed_smart": {
+      "lastRun": "2026-03-22T04:11:21.055Z",
+      "lastResult": "success",
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "done",
+      "claimedBy": null,
+      "lastError": null
+    },
+    "m5_health": {
+      "lastRun": "2026-03-22T04:11:21.060Z",
+      "lastResult": "success",
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "done",
+      "claimedBy": null,
+      "lastError": null
+    },
+    "caffeinate_guard": {
+      "lastRun": "2026-03-22T04:11:21.062Z",
+      "lastResult": "success",
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "done",
+      "claimedBy": null,
+      "lastError": null
+    },
+    "overnight_journal": {
+      "lastRun": "2026-03-21T10:00:15.878Z",
+      "lastResult": "success",
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "done",
+      "claimedBy": null,
+      "lastError": null
+    }
+  },
+  "startedAt": "2026-03-21T00:10:37.103Z"
+}

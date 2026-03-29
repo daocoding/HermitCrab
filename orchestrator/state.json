@@ -1,0 +1,59 @@
+{
+  "taskStates": {
+    "health_check": {
+      "lastRun": "2026-03-29T05:03:16.673Z",
+      "lastResult": "success",
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "done",
+      "claimedBy": null,
+      "lastError": null
+    },
+    "morning_brief": {
+      "lastRun": null,
+      "lastResult": null,
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "idle",
+      "claimedBy": null,
+      "lastError": null
+    },
+    "bridge_watchdog": {
+      "lastRun": "2026-03-21T05:09:54.286Z",
+      "lastResult": "success",
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "running",
+      "claimedBy": null,
+      "lastError": null
+    },
+    "qmd_embed": {
+      "lastRun": null,
+      "lastResult": null,
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "idle",
+      "claimedBy": null,
+      "lastError": null
+    },
+    "l3_heal_bridge_watchdog": {
+      "lastRun": "2026-03-20T13:59:19.493Z",
+      "lastResult": null,
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "running",
+      "claimedBy": null,
+      "lastError": null
+    },
+    "l3_heal_health_check": {
+      "lastRun": "2026-03-21T05:18:00.293Z",
+      "lastResult": null,
+      "consecutiveErrors": 0,
+      "nextRun": null,
+      "status": "running",
+      "claimedBy": null,
+      "lastError": null
+    }
+  },
+  "startedAt": "2026-03-26T20:32:06.422Z"
+}

@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+
+# Secrets & environment
+.hermitcrab-env
+*.env
+.env.*
+
+# User data & uploads
+uploads/
+teams-uploads/
+
+# Conversation logs (contain user messages)
+conversations/
+teams-conversations/
+inbox/
+
+# Session state (runtime)
+sessions.json
+teams-sessions.json
+
+# Audio files
+audio/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Sensitive Data
+.env
+.env.*
+sessions/
+knowledge/
+context/
+working-memory*
+tokens-jarvis.json
+secrets/
+data/
+workers/
+
+# Sensitive Data
+.env
+.env.*
+sessions/
+knowledge/
+context/
+working-memory*
+tokens-jarvis.json
+secrets/
+data/
+workers/

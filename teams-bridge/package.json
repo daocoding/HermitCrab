@@ -1,0 +1,13 @@
+{
+  "name": "hermitcrab-teams-bridge",
+  "version": "1.0.0",
+  "description": "HermitCrab Teams Bridge — JARVIS in Microsoft Teams via M365 Agents SDK",
+  "main": "teams-bridge.js",
+  "scripts": {
+    "start": "node teams-bridge.js",
+    "dev": "node --watch teams-bridge.js"
+  },
+  "dependencies": {
+    "@microsoft/agents-hosting-express": "^0.2.0"
+  }
+}
