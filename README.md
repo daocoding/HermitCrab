@@ -262,17 +262,37 @@ The system evolved through months of real daily use — not theory, not a demo. 
 
 ## Compared to Alternatives
 
-| Feature | This Project | OpenClaw | ChatGPT | Custom Bot |
+This project occupies a specific niche: **a self-hosted, multi-channel AI assistant with autonomous capabilities**. Here's how it compares honestly to tools you might already use.
+
+| Feature | HermitCrab | CrewAI / LangGraph | ChatGPT / Claude Pro | Claude Code / Cursor |
 |---------|:---:|:---:|:---:|:---:|
-| Multi-channel (Telegram + Teams + IDE + ...) | ✅ | ❌ | ❌ | ⚠️ manual |
-| Persistent memory across channels | ✅ | ⚠️ limited | ❌ | ❌ |
-| Autonomous operations (works while you sleep) | ✅ | ❌ | ❌ | ❌ |
-| Self-healing infrastructure | ✅ | ⚠️ basic | N/A | ❌ |
-| Multi-machine (server + laptop) | ✅ | ❌ | N/A | ❌ |
-| Multiple AI agents on same infra | ✅ | ❌ | ❌ | ❌ |
-| Fully self-hosted | ✅ | ✅ | ❌ | ✅ |
-| Any LLM provider | ✅ | ✅ | ❌ | ✅ |
-| Production-tested | ✅ | ✅ | ✅ | ❌ |
+| Multi-channel (Telegram + Teams + IDE + ...) | ✅ | ❌ single runtime | ❌ web/app only | ❌ IDE only |
+| Persistent memory across channels | ✅ | ⚠️ within workflow | ⚠️ per-conversation | ⚠️ per-project |
+| Autonomous operations (overnight tasks) | ✅ | ✅ | ❌ | ❌ |
+| Self-healing infrastructure | ⚠️ basic¹ | ❌ | N/A (managed) | N/A (managed) |
+| Multi-machine mesh | ✅ | ❌ | N/A | ❌ |
+| Multiple AI agents on same infra | ✅ | ✅ | ❌ | ⚠️ subagents |
+| Fully self-hosted | ✅ | ✅ | ❌ | ⚠️ CLI is local, LLM is cloud |
+| Any LLM provider | ✅ | ✅ | ❌ locked in | ❌ locked in |
+| Setup complexity | 🔴 high | 🟡 medium | 🟢 zero | 🟢 low |
+| Production-tested | ✅ months | ✅ | ✅ | ✅ |
+| Enterprise-grade reliability | ❌² | ❌ | ✅ | ✅ |
+
+<sup>¹ Watchdog + launchd auto-restart. Handles common failures but not battle-hardened at scale — expect to debug edge cases (port conflicts, OneDrive sync races, stale PID files).</sup>
+
+<sup>² This is a personal infrastructure project, not enterprise software. It runs great for a single user or small team, but it doesn't have the monitoring, alerting, or redundancy of managed services.</sup>
+
+**When to use HermitCrab:**
+- You want a **single AI brain** that follows you across every channel
+- You need **autonomous overnight operations** (monitoring, indexing, reports)
+- You care about **data sovereignty** and self-hosting
+- You enjoy building and tinkering with infrastructure
+
+**When to use something else:**
+- You just want to chat with an AI → **ChatGPT or Claude Pro**
+- You need a coding assistant → **Claude Code or Cursor**
+- You're building multi-agent workflows for a product → **CrewAI or LangGraph**
+- You need enterprise reliability with zero maintenance → **Managed AI services**
 
 ---
 
